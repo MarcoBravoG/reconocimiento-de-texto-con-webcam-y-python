@@ -1,50 +1,32 @@
 # reconocimiento-de-texto-con-webcam-y-python
 
+ Solución Paso a Paso
 
-import cv2
-import easyocr
-import os
+1️⃣ Desinstalar cualquier instalación incompleta de PyTorch
+Ejecuta en la terminal:
 
-# Iniciar la cámara
-cam = cv2.VideoCapture(1)  # Usa 0 si tienes solo una cámara
-print("Presiona 'ESPACIO' para capturar la imagen...")
+pip uninstall torch torchvision torchaudio -y
 
-while True:
-    ret, frame = cam.read()
-    if not ret:
-        print("Error: No se pudo acceder a la cámara.")
-        break
+2️⃣ Instalar PyTorch compatible con Python 3.12
+Python 3.12 no es totalmente compatible con la versión oficial de PyTorch. Te recomiendo instalar una versión específica compatible:
 
-    cv2.imshow("Captura", frame)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-    # Presionar ESPACIO para capturar
-    if cv2.waitKey(1) & 0xFF == ord(' '):
-        cv2.imwrite("captura.jpg", frame)
-        print("Imagen capturada y guardada como 'captura.jpg'.")
-        break
+    🚨 Nota: Esta versión usa CPU en lugar de GPU (CUDA). Si tienes una GPU NVIDIA y quieres usarla, dime y te daré otro comando.
 
-# Liberar cámara y cerrar ventana
-cam.release()
-cv2.destroyAllWindows()
+3️⃣ Verificar instalación de PyTorch
+Después de instalar, ejecuta en Python:
 
-# Verificar si la imagen fue guardada
-if not os.path.exists("captura.jpg"):
-    print("Error: No se pudo guardar la imagen.")
-    exit()
+import torch
+print(torch.__version__)
 
-# Leer la imagen
-img = cv2.imread("captura.jpg")
+Si muestra un número de versión (ejemplo: 2.1.0), la instalación fue exitosa.
 
-# Mostrar la imagen capturada
-cv2.imshow("Imagen Capturada", img)
-cv2.waitKey(2000)  # Mostrar la imagen por 2 segundos
-cv2.destroyAllWindows()
+4️⃣ Ejecutar tu código con EasyOCR nuevamente
+Si ya tienes EasyOCR, prueba tu código. Si sigue fallando, reinstálalo con:
 
-# Inicializar EasyOCR en español
-reader = easyocr.Reader(['es'])  # 'es' para idioma español
+pip install --upgrade easyocr
 
-# Aplicar OCR a la imagen
-texto = reader.readtext("captura.jpg", detail=0)  # detail=0 para obtener solo el texto
+🔹 Alternativa: Usar Python 3.10 o 3.11
 
-# Mostrar el resultado
-print("Texto extraído:", texto if texto else "No se detectó texto.")
+Si el problema persiste, considera instalar Python 3.10 o 3.11, que tienen mejor soporte para PyTorch y EasyOCR.
