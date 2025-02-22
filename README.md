@@ -1,0 +1,1 @@
+# reconocimiento-de-texto-con-webcam-y-python
